@@ -274,7 +274,7 @@ MonoBehaviour:
       m_Calls: []
   Channels: 02000000
   Timeout: 25
-  SteamAppID: 480
+  SteamAppID: 1635300
   AllowSteamRelay: 1
   SteamUserID: 0
 --- !u!114 &433550099
