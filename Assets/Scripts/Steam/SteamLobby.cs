@@ -13,6 +13,7 @@ public class SteamLobby : MonoBehaviour {
     protected Callback<LobbyCreated_t> lobbyCreated;
     protected Callback<GameLobbyJoinRequested_t> gameLobbyJoinRequested;
     protected Callback<LobbyEnter_t> lobbyEntered;
+    protected Callback<LobbyMatchList_t> lobbyMatchList_t;
     private const string hostAddressKey = "HostAddress";
     //Read this from anywhere but only able to set it in here
     public static CSteamID lobbyId {get; private set;}
@@ -27,6 +28,7 @@ public class SteamLobby : MonoBehaviour {
         lobbyCreated = Callback<LobbyCreated_t>.Create (OnLobbyCreated);
         gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create (OnGameLobbyJoinRequested);
         lobbyEntered = Callback<LobbyEnter_t>.Create (OnLobbyEntered);
+        lobbyMatchList_t = Callback<LobbyMatchList_t>.Create (LobbySearch);
     }
 
     public void HostLobby () {
@@ -34,6 +36,14 @@ public class SteamLobby : MonoBehaviour {
         button.SetActive (false);
         //Create public lobby with max 2 people
         SteamMatchmaking.CreateLobby (ELobbyType.k_ELobbyTypePublic, networkManager.maxConnections);
+    }
+
+    private void LobbySearch (LobbyMatchList_t callback) {
+        SteamMatchmaking.JoinLobby (SteamMatchmaking.GetLobbyByIndex (0));
+    }
+
+    public void JoinLobby () {
+        SteamMatchmaking.RequestLobbyList ();
     }
 
     //Steam callback action
