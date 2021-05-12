@@ -6,8 +6,18 @@ using Steamworks;
 
 public class CustomNetworkManager : NetworkManager {
 
+    public NetworkConnection clientConnection;
+
+    public override void OnClientConnect (NetworkConnection conn) {
+        base.OnClientConnect(conn);
+        clientConnection = conn;
+    }
+
     public override void OnServerAddPlayer (NetworkConnection conn) {
-        base.OnServerAddPlayer (conn);
+        Debug.Log ("trying to add player");
+        GameObject player = (GameObject)Instantiate (playerPrefab, new Vector3 (0f, 1.008f, 0f), Quaternion.identity);
+        NetworkServer.AddPlayerForConnection (conn, player);
+        Debug.Log ("player spawned");
         //Steam id of person who just joined
         CSteamID steamId = SteamMatchmaking.GetLobbyMemberByIndex (SteamLobby.lobbyId, numPlayers - 1);
         //Get Component of that player
