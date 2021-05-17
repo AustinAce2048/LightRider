@@ -6,13 +6,6 @@ using Steamworks;
 
 public class CustomNetworkManager : NetworkManager {
 
-    public NetworkConnection clientConnection;
-
-    public override void OnClientConnect (NetworkConnection conn) {
-        base.OnClientConnect(conn);
-        clientConnection = conn;
-    }
-
     public override void OnServerAddPlayer (NetworkConnection conn) {
         Debug.Log ("trying to add player");
         GameObject player = (GameObject)Instantiate (playerPrefab, new Vector3 (0f, 1.008f, 0f), Quaternion.identity);

@@ -88,6 +88,6 @@ public class SteamLobby : MonoBehaviour {
         Debug.Log ("yeet");
         //After showing cam spawn player
         GameObject.Find ("LevelCamera").SetActive (false);
-        ClientScene.AddPlayer (GetComponent<CustomNetworkManager> ().clientConnection);
+        ClientScene.AddPlayer (NetworkClient.connection);
     }
 }
