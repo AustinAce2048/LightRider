@@ -9,6 +9,9 @@ public class TransformSyncInterpolate : NetworkBehaviour {
     [SyncVar] private Vector3 syncPos;
  
     private Vector3 lastPos;
+    [SyncVar] private Quaternion syncRot;
+ 
+    private Quaternion lastRot;
     [SerializeField] private float threshold = 0.5f;
  
  
@@ -18,9 +21,13 @@ public class TransformSyncInterpolate : NetworkBehaviour {
  
  
     void FixedUpdate () {
-        TransmitPosition ();
+        SendPosition ();
+        SendRotation ();
         if (!hasAuthority) {
             transform.position = Vector3.Lerp (transform.position, syncPos, Time.deltaTime * lerpRate);
+        }
+        if (!hasAuthority) {
+            transform.rotation = Quaternion.Lerp (transform.rotation, syncRot, Time.deltaTime * lerpRate);
         }
     }
  
@@ -28,12 +35,25 @@ public class TransformSyncInterpolate : NetworkBehaviour {
     void Cmd_ProvidePositionToServer (Vector3 pos) {
         syncPos = pos;
     }
+
+    [Command]
+    void Cmd_ProvideRotationToServer (Quaternion rot) {
+        syncRot = rot;
+    }
  
     [ClientCallback]
-    void TransmitPosition () {
+    void SendPosition () {
         if (hasAuthority  && Vector3.Distance (transform.position, lastPos) > threshold) {
             Cmd_ProvidePositionToServer (transform.position);
             lastPos = transform.position;
+        }
+    }
+
+    [ClientCallback]
+    void SendRotation () {
+        if (hasAuthority  && Quaternion.Angle (transform.rotation, lastRot) > threshold) {
+            Cmd_ProvideRotationToServer (transform.rotation);
+            lastRot = transform.rotation;
         }
     }
 
