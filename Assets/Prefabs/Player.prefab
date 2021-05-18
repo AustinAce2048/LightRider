@@ -312,7 +312,7 @@ GameObject:
   - component: {fileID: 5797377532333742828}
   - component: {fileID: 1177041757831379891}
   - component: {fileID: 6756797498620802746}
-  - component: {fileID: 5653125326750280950}
+  - component: {fileID: 246945879}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -422,7 +422,7 @@ MonoBehaviour:
   maximumX: 360
   minimumY: -60
   maximumY: 60
---- !u!114 &5653125326750280950
+--- !u!114 &246945879
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -431,15 +431,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 575788157646509385}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 18c0dd1f57dd939449631758082465a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clientAuthority: 1
-  localPositionSensitivity: 0.01
-  localRotationSensitivity: 0.01
-  localScaleSensitivity: 0.01
+  lerpRate: 5
+  threshold: 0.01
 --- !u!1 &575788158028480976
 GameObject:
   m_ObjectHideFlags: 0
