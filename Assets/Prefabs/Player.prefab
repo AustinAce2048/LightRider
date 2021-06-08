@@ -560,6 +560,7 @@ MonoBehaviour:
   forwardSpeed: 75
   strafeSpeed: 65
   jumpPower: 500
+  face: 
 --- !u!114 &6756797498620802746
 MonoBehaviour:
   m_ObjectHideFlags: 0

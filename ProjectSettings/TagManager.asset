@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - LevelPiece
+  - Face
   layers:
   - Default
   - TransparentFX

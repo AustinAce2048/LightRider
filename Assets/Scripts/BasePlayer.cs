@@ -8,15 +8,23 @@ public class BasePlayer : NetworkBehaviour {
     public float forwardSpeed;
     public float strafeSpeed;
     public float jumpPower = 20f;
+    public string face;
 
     private Rigidbody rb;
     private bool disabledMyself = false;
+    private bool switchedParent = false;
+    private LevelRotator levelRotator;
+    private bool unparent = false;
+    private Vector3 previousDirection;
+    private GameObject cachedFace;
 
     private void Start () {
         //Get reference to controller
         rb = GetComponent<Rigidbody> ();
+        //Hide and lock cursor
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        levelRotator = GameObject.Find ("LevelGeo").GetComponent<LevelRotator> ();
     }
 
     private void FixedUpdate () {
@@ -34,12 +42,29 @@ public class BasePlayer : NetworkBehaviour {
                 rb.AddForce (transform.right * strafeSpeed);
             }
 
-            //Gravity, working against me
+            //Gravity, its working against me
             RaycastHit hit;
+            RaycastHit hit2;
             if (Input.GetKey (KeyCode.Space) && Physics.Raycast (transform.position, -transform.up, out hit, 1.1f)) {
                 rb.AddForce (transform.up * jumpPower);
             }
-            rb.AddForce (new Vector3 (0f, -18.81f, 0f));
+            if (Physics.Raycast (transform.position, -transform.up, out hit2, 5f)) {
+                if (hit2.collider.gameObject.tag == "Face") {
+                    if (levelRotator.isRotating) {
+                        if (!switchedParent) {
+                            transform.parent = hit2.collider.gameObject.transform;
+                            transform.localScale = new Vector3 (0.11111f, 111.11111f, 0.11111f);
+                            cachedFace = hit2.collider.gameObject;
+                            switchedParent = true;
+                        } else {
+                            if (hit2.collider.gameObject != cachedFace) {
+                                switchedParent = false;
+                            }
+                        }
+                    }
+                }
+            }
+            rb.AddForce (-transform.up * 23f);
             rb.velocity = rb.velocity * 0.85f;
         } else {
             //Turn off your own scripts if you're not owned
