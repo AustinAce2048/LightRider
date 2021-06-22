@@ -6,6 +6,8 @@ TagManager:
   tags:
   - LevelPiece
   - Face
+  - Room
+  - Hallway
   layers:
   - Default
   - TransparentFX

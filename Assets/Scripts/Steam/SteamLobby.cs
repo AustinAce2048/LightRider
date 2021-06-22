@@ -61,7 +61,7 @@ public class SteamLobby : MonoBehaviour {
         //Create lobby data read the host steam id using the host address key constant
         SteamMatchmaking.SetLobbyData (lobbyId, hostAddressKey, SteamUser.GetSteamID ().ToString ());
         //Load into chosen level, make sure all players in that lobby go into the same level
-        SceneManager.LoadScene ("TestScene", LoadSceneMode.Single);
+        SceneManager.LoadScene ("Level1", LoadSceneMode.Single);
     }
     
     private void OnGameLobbyJoinRequested (GameLobbyJoinRequested_t callback) {
@@ -79,13 +79,12 @@ public class SteamLobby : MonoBehaviour {
         NetworkClient.Connect (hostAddress);
         networkManager.StartClient ();
         //Load level, make sure its same as lobby level
-        SceneManager.LoadScene ("TestScene", LoadSceneMode.Single);
+        SceneManager.LoadScene ("Level1", LoadSceneMode.Single);
         StartCoroutine (ShowingLevelCam ());
     }
 
     IEnumerator ShowingLevelCam () {
         yield return new WaitForSeconds (2f);
-        Debug.Log ("yeet");
         //After showing cam spawn player
         GameObject.Find ("LevelCamera").SetActive (false);
         ClientScene.AddPlayer (NetworkClient.connection);

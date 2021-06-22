@@ -540,7 +540,7 @@ MonoBehaviour:
   startOnHeadless: 1
   showDebugMessages: 0
   serverTickRate: 30
-  offlineScene: Assets/Scenes/TestScene.unity
+  offlineScene: 
   onlineScene: 
   transport: {fileID: 1323574370}
   networkAddress: localhost
