@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DungeonPieceData : MonoBehaviour {
 
-    public float distanceFromCenterToEdge;
     public GameObject snaps;
 
 }
