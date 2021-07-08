@@ -29,10 +29,8 @@ public class BasePlayer : NetworkBehaviour {
             if (Input.GetMouseButtonDown (0)) {
                 Debug.DrawRay (shootingPoint.transform.position, shootingPoint.transform.parent.forward * 100f, Color.green, 10f);
                 if (Physics.Raycast (shootingPoint.transform.position, shootingPoint.transform.parent.forward, out hit2, 100f)) {
-                    Debug.Log ("hit something | " + hit2.collider.gameObject.name);
                     if (hit2.collider.gameObject.tag == "Player") {
-                        Debug.Log ("hit player");
-                        TakeDamage (hit2.collider.gameObject.GetComponent<NetworkIdentity> ().connectionToClient, 25f);
+                        CmdDamage (hit2.collider.gameObject, 25f);
                     }
                 }
             }
@@ -73,8 +71,18 @@ public class BasePlayer : NetworkBehaviour {
         }
     }
 
+    [Command]
+    void CmdDamage (GameObject target, float damage) {
+        target.GetComponent<BasePlayer> ().TakeDamage (damage);
+        TargetTakeDamage (target.GetComponent<NetworkIdentity> ().connectionToClient, damage);
+    }
+
+    public void TakeDamage (float damage) {
+        currentHealth = currentHealth - damage;
+    }
+
     [TargetRpc]
-    public void TakeDamage (NetworkConnection target, float damage) {
+    public void TargetTakeDamage (NetworkConnection target, float damage) {
         currentHealth = currentHealth - damage;
         Debug.Log (currentHealth);
     }
