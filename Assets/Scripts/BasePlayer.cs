@@ -27,8 +27,11 @@ public class BasePlayer : NetworkBehaviour {
         if (isLocalPlayer) {
             //Shooting
             if (Input.GetMouseButtonDown (0)) {
-                if (Physics.Raycast (shootingPoint.transform.position, transform.forward, out hit2, 100f)) {
+                Debug.DrawRay (shootingPoint.transform.position, shootingPoint.transform.parent.forward * 100f, Color.green, 10f);
+                if (Physics.Raycast (shootingPoint.transform.position, shootingPoint.transform.parent.forward, out hit2, 100f)) {
+                    Debug.Log ("hit something | " + hit2.collider.gameObject.name);
                     if (hit2.collider.gameObject.tag == "Player") {
+                        Debug.Log ("hit player");
                         TakeDamage (hit2.collider.gameObject.GetComponent<NetworkIdentity> ().connectionToClient, 25f);
                     }
                 }
