@@ -8,9 +8,12 @@ public class BasePlayer : NetworkBehaviour {
     public float forwardSpeed;
     public float strafeSpeed;
     public float jumpPower = 20f;
+    public GameObject shootingPoint;
 
     private Rigidbody rb;
     private bool disabledMyself = false;
+    private RaycastHit hit2;
+    private float currentHealth = 100f;
 
     private void Start () {
         //Get reference to controller
@@ -22,6 +25,15 @@ public class BasePlayer : NetworkBehaviour {
 
     private void FixedUpdate () {
         if (isLocalPlayer) {
+            //Shooting
+            if (Input.GetMouseButtonDown (0)) {
+                if (Physics.Raycast (shootingPoint.transform.position, transform.forward, out hit2, 100f)) {
+                    if (hit2.collider.gameObject.tag == "Player") {
+                        TakeDamage (hit2.collider.gameObject.GetComponent<NetworkIdentity> ().connectionToClient, 25f);
+                    }
+                }
+            }
+
             //Incredibly basic movement
             if (Input.GetKey (KeyCode.W)) {
                 rb.AddForce (transform.forward * forwardSpeed);
@@ -56,6 +68,12 @@ public class BasePlayer : NetworkBehaviour {
         if (Input.GetKey (KeyCode.Escape)) {
             Application.Quit ();
         }
+    }
+
+    [TargetRpc]
+    public void TakeDamage (NetworkConnection target, float damage) {
+        currentHealth = currentHealth - damage;
+        Debug.Log (currentHealth);
     }
 
 }
