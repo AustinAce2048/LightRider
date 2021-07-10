@@ -36,6 +36,11 @@ public class BaseEnemy : NetworkBehaviour {
                 }
             }
         }
+
+        //Check if enemy is dead
+        if (currentHealth <= 0) {
+            Destroy (gameObject);
+        }
     }
 
     IEnumerator FireCooldown () {
@@ -45,17 +50,7 @@ public class BaseEnemy : NetworkBehaviour {
 
     //Enemy takes damage
     public void TakeDamage (float damage) {
-        if ((currentHealth - damage) <= 0) {
-            //Die
-            if (isSolo) {
-                Destroy (gameObject);
-            } else {
-                //Multiplayer die
-                NetworkServer.Destroy (gameObject);
-            }
-        } else {
-            currentHealth = currentHealth - damage;
-        }
+        currentHealth = currentHealth - damage;
     }
 
     [Command]
