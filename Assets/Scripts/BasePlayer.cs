@@ -86,8 +86,8 @@ public class BasePlayer : NetworkBehaviour {
 
     [Command]
     void CmdDamage (int id, float damage) {
-        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag ("Player")) {
-            SendDamage (id, damage);
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag ("Player")) {
+            player.GetComponent<BasePlayer> ().SendDamage (id, damage);
         }
     }
 
