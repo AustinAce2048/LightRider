@@ -86,6 +86,15 @@ public class BasePlayer : NetworkBehaviour {
 
     [Command]
     void CmdDamage (GameObject target, float damage) {
+        GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject> ();
+        foreach (GameObject go in allObjects) {
+            if (go.tag == "Player") {
+                go.GetComponent<BasePlayer> ().SendDamage (target, damage);
+            }
+        }
+    }
+
+    public void SendDamage (GameObject target, float damage) {
         target.GetComponent<BaseEnemy> ().TakeDamage (damage);
     }
 

@@ -49,14 +49,8 @@ public class BaseEnemy : NetworkBehaviour {
     }
 
     //Enemy takes damage
-    [ClientRpc]
     public void TakeDamage (float damage) {
         currentHealth = currentHealth - damage;
-    }
-
-    [Command]
-    void CmdDamage (GameObject target, float damage) {
-        target.GetComponent<BasePlayer> ().TakeDamage (damage);
     }
 
     void OnTriggerStay (Collider other) {
