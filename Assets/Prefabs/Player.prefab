@@ -42,8 +42,8 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 0.4716981, g: 0.7075472, b: 0.5148419, a: 1}
+  m_Intensity: 0.75
   m_Range: 50
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -608,7 +608,9 @@ MonoBehaviour:
   forwardSpeed: 75
   strafeSpeed: 65
   jumpPower: 500
+  damagePerShot: 25
   shootingPoint: {fileID: 8044907526148006104}
+  currentHealth: 100
 --- !u!114 &2581200348822983116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,7 +673,7 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8785168048900970794

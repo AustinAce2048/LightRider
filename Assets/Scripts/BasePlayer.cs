@@ -8,14 +8,22 @@ public class BasePlayer : NetworkBehaviour {
     public float forwardSpeed;
     public float strafeSpeed;
     public float jumpPower = 20f;
+    public float damagePerShot = 25f;
     public GameObject shootingPoint;
 
     private Rigidbody rb;
     private bool disabledMyself = false;
     private RaycastHit hit2;
-    private float currentHealth = 100f;
+    public float currentHealth = 100f;
+    private bool isSolo = false;
 
     private void Start () {
+        //Check if solo
+        if (PlayerPrefs.GetString ("GameType") == "Solo") {
+            isSolo = true;
+            Destroy (GetComponent<TransformSyncInterpolate> ());
+            Destroy (GetComponent<PlayerInfo> ());
+        }
         //Get reference to controller
         rb = GetComponent<Rigidbody> ();
         //Hide and lock cursor
@@ -24,13 +32,17 @@ public class BasePlayer : NetworkBehaviour {
     }
 
     private void FixedUpdate () {
-        if (isLocalPlayer) {
+        if (isLocalPlayer || isSolo) {
             //Shooting
             if (Input.GetMouseButtonDown (0)) {
                 Debug.DrawRay (shootingPoint.transform.position, shootingPoint.transform.parent.forward * 100f, Color.green, 10f);
                 if (Physics.Raycast (shootingPoint.transform.position, shootingPoint.transform.parent.forward, out hit2, 100f)) {
-                    if (hit2.collider.gameObject.tag == "Player") {
-                        CmdDamage (hit2.collider.gameObject, 25f);
+                    if (hit2.collider.gameObject.tag == "Enemy") {
+                        if (isSolo) {
+                            hit2.collider.gameObject.GetComponent<BaseEnemy> ().TakeDamage (damagePerShot);
+                        } else {
+                            CmdDamage (hit2.collider.gameObject, damagePerShot);
+                        }
                     }
                 }
             }
@@ -73,18 +85,11 @@ public class BasePlayer : NetworkBehaviour {
 
     [Command]
     void CmdDamage (GameObject target, float damage) {
-        target.GetComponent<BasePlayer> ().TakeDamage (damage);
-        TargetTakeDamage (target.GetComponent<NetworkIdentity> ().connectionToClient, damage);
+        target.GetComponent<BaseEnemy> ().TakeDamage (damage);
     }
 
     public void TakeDamage (float damage) {
         currentHealth = currentHealth - damage;
-    }
-
-    [TargetRpc]
-    public void TargetTakeDamage (NetworkConnection target, float damage) {
-        currentHealth = currentHealth - damage;
-        Debug.Log (currentHealth);
     }
 
 }

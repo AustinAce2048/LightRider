@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1119486569}
   - component: {fileID: 1119486570}
+  - component: {fileID: 1119486568}
   m_Layer: 0
   m_Name: Dungeon
   m_TagString: Untagged
@@ -140,6 +141,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1119486568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1119486567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d69cf6965fdd0144be1134b91e9cab0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 8785168048708039231, guid: f9e868d64226b2d468261add440f21eb, type: 3}
 --- !u!4 &1119486569
 Transform:
   m_ObjectHideFlags: 0
@@ -180,12 +194,8 @@ MonoBehaviour:
   xPosRightTurn: {fileID: 3821347986555333258, guid: 4c0c35cd118392c4a913e1e019128638, type: 3}
   xNegLeftTurn: {fileID: 3695190880411702233, guid: c8b8660fc12f75546900883398631d35, type: 3}
   xNegRightTurn: {fileID: 3983807967582268881, guid: 6bcc491df70598148b096f656e13c86e, type: 3}
-  zPosT: {fileID: 580073332679323752, guid: 5263081d2a346344fb48a0e4c04d42aa, type: 3}
-  zNegT: {fileID: 2936525354444325253, guid: 0d0c9b834a1bb3f439cc39ad76b8c7a0, type: 3}
-  xPosT: {fileID: 837087044750633641, guid: 4c9ce8c5a2b3ebc45b2bfd12fa3bd02d, type: 3}
-  xNegT: {fileID: 8287965443005834086, guid: f4140860dc16326479199e368c630188, type: 3}
   currentEdge: []
-  newEdge: []
+  pieceDirections: []
 --- !u!1 &1210129706
 GameObject:
   m_ObjectHideFlags: 0
