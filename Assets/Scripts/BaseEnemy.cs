@@ -49,6 +49,7 @@ public class BaseEnemy : NetworkBehaviour {
     }
 
     //Enemy takes damage
+    [ClientRpc]
     public void TakeDamage (float damage) {
         currentHealth = currentHealth - damage;
     }
