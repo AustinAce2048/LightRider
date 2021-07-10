@@ -14,6 +14,7 @@ public class BasePlayer : NetworkBehaviour {
     private Rigidbody rb;
     private bool disabledMyself = false;
     private RaycastHit hit2;
+    [SyncVar]
     public float currentHealth = 100f;
     private bool isSolo = false;
 
@@ -86,6 +87,12 @@ public class BasePlayer : NetworkBehaviour {
     [Command]
     void CmdDamage (GameObject target, float damage) {
         target.GetComponent<BaseEnemy> ().TakeDamage (damage);
+    }
+
+    [TargetRpc]
+    public void TargetTakeDamage (NetworkConnection target, float damage) {
+        currentHealth = currentHealth - damage;
+        Debug.Log (currentHealth);
     }
 
     public void TakeDamage (float damage) {

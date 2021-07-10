@@ -11,6 +11,7 @@ public class BaseEnemy : NetworkBehaviour {
 
     private GameObject target;
     private RaycastHit hit2;
+    [SyncVar]
     public float currentHealth;
     private bool cooldown = false;
     private bool isSolo = false;
@@ -28,11 +29,7 @@ public class BaseEnemy : NetworkBehaviour {
                 if (hit2.collider.gameObject.tag == "Player") {
                     //Looking at player, shoot
                     if (!cooldown) {
-                        if (isSolo) {
-                            hit2.collider.gameObject.GetComponent<BasePlayer> ().TakeDamage (damagePerShot);
-                        } else {
-                            CmdDamage (hit2.collider.gameObject, 25f);
-                        }
+                        hit2.collider.gameObject.GetComponent<BasePlayer> ().TakeDamage (damagePerShot);
                         cooldown = true;
                         StartCoroutine (FireCooldown ());
                     }
@@ -64,13 +61,6 @@ public class BaseEnemy : NetworkBehaviour {
     [Command]
     void CmdDamage (GameObject target, float damage) {
         target.GetComponent<BasePlayer> ().TakeDamage (damage);
-        TargetTakeDamage (target.GetComponent<NetworkIdentity> ().connectionToClient, damage);
-    }
-
-    [TargetRpc]
-    public void TargetTakeDamage (NetworkConnection target, float damage) {
-        currentHealth = currentHealth - damage;
-        Debug.Log (currentHealth);
     }
 
     void OnTriggerStay (Collider other) {
