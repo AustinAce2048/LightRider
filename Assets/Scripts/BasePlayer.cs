@@ -42,7 +42,7 @@ public class BasePlayer : NetworkBehaviour {
                         if (isSolo) {
                             hit2.collider.gameObject.GetComponent<BaseEnemy> ().TakeDamage (damagePerShot);
                         } else {
-                            CmdDamage (hit2.collider.gameObject, damagePerShot);
+                            CmdDamage (hit2.collider.gameObject.GetComponent<BaseEnemy> ().id, damagePerShot);
                         }
                     }
                 }
@@ -85,11 +85,10 @@ public class BasePlayer : NetworkBehaviour {
     }
 
     [Command]
-    void CmdDamage (GameObject target, float damage) {
-        GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject> ();
-        foreach (GameObject go in allObjects) {
-            if (go.tag == "Player") {
-                go.GetComponent<BasePlayer> ().SendDamage (target, damage);
+    void CmdDamage (int id, float damage) {
+        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag ("Enemy")) {
+            if (enemy.GetComponent<BaseEnemy> ().id == id) {
+                enemy.GetComponent<BaseEnemy> ().TakeDamage (damage);
             }
         }
     }

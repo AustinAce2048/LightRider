@@ -8,6 +8,7 @@ public class BaseEnemy : NetworkBehaviour {
     public GameObject shootingPoint;
     public float delayBetweenShots = 0.5f;
     public float damagePerShot;
+    public int id;
 
     private GameObject target;
     private RaycastHit hit2;
@@ -49,6 +50,7 @@ public class BaseEnemy : NetworkBehaviour {
     }
 
     //Enemy takes damage
+    [ClientRpc]
     public void TakeDamage (float damage) {
         currentHealth = currentHealth - damage;
     }

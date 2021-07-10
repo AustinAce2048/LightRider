@@ -10,6 +10,7 @@ public class GameManager : NetworkBehaviour {
     public List<GameObject> enemySpawns = new List<GameObject> ();
 
     private bool isSolo = false;
+    private int enemyId = 0;
 
     private void Start () {
         if (PlayerPrefs.GetString ("GameType") == "Solo") {
@@ -23,6 +24,8 @@ public class GameManager : NetworkBehaviour {
             } else {
                 GameObject enemyObject = Instantiate (enemy, spawnPoint.transform.position, Quaternion.identity);
                 NetworkServer.Spawn (enemyObject);
+                enemyObject.GetComponent<BaseEnemy> ().id = enemyId;
+                enemyId++;
             }
         }
     }
