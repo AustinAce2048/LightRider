@@ -12,12 +12,16 @@ public class BaseEnemy : NetworkBehaviour {
 
     private GameObject target;
     private RaycastHit hit2;
+    private float maxHealth;
+
     [SyncVar]
     public float currentHealth;
     private bool cooldown = false;
     private bool isSolo = false;
 
     private void Start () {
+        currentHealth = maxHealth;
+
         if (PlayerPrefs.GetString ("GameType") == "Solo") {
             isSolo = true;
         }

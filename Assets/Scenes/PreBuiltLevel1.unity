@@ -1933,7 +1933,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1851817968}
   - component: {fileID: 1851817967}
-  - component: {fileID: 1851817966}
   m_Layer: 0
   m_Name: LevelCamera
   m_TagString: Untagged
@@ -1941,14 +1940,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1851817966
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1851817965}
-  m_Enabled: 1
 --- !u!20 &1851817967
 Camera:
   m_ObjectHideFlags: 0

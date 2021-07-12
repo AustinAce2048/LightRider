@@ -15,11 +15,14 @@ public class BasePlayer : NetworkBehaviour {
     private Rigidbody rb;
     private bool disabledMyself = false;
     private RaycastHit hit2;
+    private float maxHealth;
     [SyncVar]
     public float currentHealth = 100f;
     private bool isSolo = false;
 
     private void Start () {
+        currentHealth = maxHealth;
+
         //Check if solo
         if (PlayerPrefs.GetString ("GameType") == "Solo") {
             isSolo = true;
@@ -43,7 +46,7 @@ public class BasePlayer : NetworkBehaviour {
                         if (isSolo) {
                             hit2.collider.gameObject.GetComponent<BaseEnemy> ().TakeDamage (damagePerShot);
                         } else {
-                            CmdDamage (hit2.collider.gameObject.GetComponent<BaseEnemy> ().id, damagePerShot);
+                            FireGun ();
                         }
                     }
                 }
@@ -85,14 +88,13 @@ public class BasePlayer : NetworkBehaviour {
         }
     }
 
-    [Command]
-    void CmdDamage (int enemyId, float damage) {
-        RpcDamageEnemy (enemyId, damage);
+    [Client]
+    void FireGun () {
+        CmdDamage (hit2.collider.gameObject.GetComponent<BaseEnemy> ().id, damagePerShot);
     }
 
-    [ClientRpc]
-    void RpcDamageEnemy (int enemyId, float damage) {
-        Debug.Log ("Damage enemy");
+    [Command]
+    void CmdDamage (int enemyId, float damage) {
         foreach (GameObject enemy in GameObject.FindGameObjectsWithTag ("Enemy")) {
             if (enemy.GetComponent<BaseEnemy> ().id == enemyId) {
                 enemy.GetComponent<BaseEnemy> ().TakeDamage (damage);
