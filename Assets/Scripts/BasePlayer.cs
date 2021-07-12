@@ -86,20 +86,18 @@ public class BasePlayer : NetworkBehaviour {
     }
 
     [Command]
-    void CmdDamage (int id, float damage, int playerId) {
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag ("Player")) {
-            if (player.GetComponent<BasePlayer> ().id == playerId) {
-                player.GetComponent<BasePlayer> ().RpcDamageEnemy (id, damage);
-            }
-        }
+    void CmdDamage (int enemyId, float damage, int playerId) {
+        RpcDamageEnemy (enemyId, damage, playerId);
     }
 
     [ClientRpc]
-    void RpcDamageEnemy (int id, float damage) {
-        Debug.Log ("Damage enemy");
-        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag ("Enemy")) {
-            if (enemy.GetComponent<BaseEnemy> ().id == id) {
-                enemy.GetComponent<BaseEnemy> ().TakeDamage (damage);
+    void RpcDamageEnemy (int enemyId, float damage, int playerId) {
+        if (playerId == id) {
+            Debug.Log ("Damage enemy");
+            foreach (GameObject enemy in GameObject.FindGameObjectsWithTag ("Enemy")) {
+                if (enemy.GetComponent<BaseEnemy> ().id == enemyId) {
+                    enemy.GetComponent<BaseEnemy> ().TakeDamage (damage);
+                }
             }
         }
     }
