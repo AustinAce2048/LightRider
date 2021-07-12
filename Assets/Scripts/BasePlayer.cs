@@ -41,9 +41,9 @@ public class BasePlayer : NetworkBehaviour {
                 if (Physics.Raycast (shootingPoint.transform.position, shootingPoint.transform.parent.forward, out hit2, 100f)) {
                     if (hit2.collider.gameObject.tag == "Enemy") {
                         if (isSolo) {
-                            hit2.collider.gameObject.GetComponent<BaseEnemy> ().SoloTakeDamage (damagePerShot);
+                            hit2.collider.gameObject.GetComponent<BaseEnemy> ().TakeDamage (damagePerShot);
                         } else {
-                            CmdDamage (hit2.collider.gameObject.GetComponent<BaseEnemy> ().id, damagePerShot, id);
+                            CmdDamage (hit2.collider.gameObject.GetComponent<BaseEnemy> ().id, damagePerShot);
                         }
                     }
                 }
@@ -86,18 +86,16 @@ public class BasePlayer : NetworkBehaviour {
     }
 
     [Command]
-    void CmdDamage (int enemyId, float damage, int playerId) {
-        RpcDamageEnemy (enemyId, damage, playerId);
+    void CmdDamage (int enemyId, float damage) {
+        RpcDamageEnemy (enemyId, damage);
     }
 
     [ClientRpc]
-    void RpcDamageEnemy (int enemyId, float damage, int playerId) {
-        if (playerId == id) {
-            Debug.Log ("Damage enemy");
-            foreach (GameObject enemy in GameObject.FindGameObjectsWithTag ("Enemy")) {
-                if (enemy.GetComponent<BaseEnemy> ().id == enemyId) {
-                    enemy.GetComponent<BaseEnemy> ().TakeDamage (damage);
-                }
+    void RpcDamageEnemy (int enemyId, float damage) {
+        Debug.Log ("Damage enemy");
+        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag ("Enemy")) {
+            if (enemy.GetComponent<BaseEnemy> ().id == enemyId) {
+                enemy.GetComponent<BaseEnemy> ().TakeDamage (damage);
             }
         }
     }
