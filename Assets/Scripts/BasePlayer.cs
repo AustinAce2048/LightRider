@@ -40,7 +40,7 @@ public class BasePlayer : NetworkBehaviour {
                 if (Physics.Raycast (shootingPoint.transform.position, shootingPoint.transform.parent.forward, out hit2, 100f)) {
                     if (hit2.collider.gameObject.tag == "Enemy") {
                         if (isSolo) {
-                            hit2.collider.gameObject.GetComponent<BaseEnemy> ().TakeDamage (damagePerShot);
+                            hit2.collider.gameObject.GetComponent<BaseEnemy> ().SoloTakeDamage (damagePerShot);
                         } else {
                             CmdDamage (hit2.collider.gameObject.GetComponent<BaseEnemy> ().id, damagePerShot);
                         }
@@ -86,23 +86,11 @@ public class BasePlayer : NetworkBehaviour {
 
     [Command]
     void CmdDamage (int id, float damage) {
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag ("Player")) {
-            player.GetComponent<BasePlayer> ().SendDamage (id, damage);
-        }
-    }
-
-    public void SendDamage (int id, float damage) {
         foreach (GameObject enemy in GameObject.FindGameObjectsWithTag ("Enemy")) {
             if (enemy.GetComponent<BaseEnemy> ().id == id) {
                 enemy.GetComponent<BaseEnemy> ().TakeDamage (damage);
             }
         }
-    }
-
-    [TargetRpc]
-    public void TargetTakeDamage (NetworkConnection target, float damage) {
-        currentHealth = currentHealth - damage;
-        Debug.Log (currentHealth);
     }
 
     public void TakeDamage (float damage) {

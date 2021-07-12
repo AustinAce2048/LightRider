@@ -55,6 +55,10 @@ public class BaseEnemy : NetworkBehaviour {
         currentHealth = currentHealth - damage;
     }
 
+    public void SoloTakeDamage (float damage) {
+        currentHealth = currentHealth - damage;
+    }
+
     void OnTriggerStay (Collider other) {
         if (other.gameObject.tag == "Player") {
             target = other.gameObject;
