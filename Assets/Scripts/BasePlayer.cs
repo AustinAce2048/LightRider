@@ -93,6 +93,7 @@ public class BasePlayer : NetworkBehaviour {
 
     [ClientRpc]
     void RpcDamageEnemy (int id, float damage) {
+        Debug.Log ("Damage enemy");
         foreach (GameObject enemy in GameObject.FindGameObjectsWithTag ("Enemy")) {
             if (enemy.GetComponent<BaseEnemy> ().id == id) {
                 enemy.GetComponent<BaseEnemy> ().TakeDamage (damage);
