@@ -25,6 +25,13 @@ public class CustomNetworkManager : NetworkManager {
         GameObject player = (GameObject)Instantiate (playerPrefab, new Vector3 (0f, 1.001f, 0f), Quaternion.identity);
         NetworkServer.AddPlayerForConnection (conn, player);
         Debug.Log ("player spawned");
+        int highestId = 0;
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag ("Player")) {
+            if (obj.GetComponent<BasePlayer> ().id > highestId) {
+                highestId = obj.GetComponent<BasePlayer> ().id;
+            }
+        }
+        player.GetComponent<BasePlayer> ().id = highestId + 1;
         //Steam id of person who just joined
         CSteamID steamId = SteamMatchmaking.GetLobbyMemberByIndex (SteamLobby.lobbyId, numPlayers - 1);
         //Get Component of that player

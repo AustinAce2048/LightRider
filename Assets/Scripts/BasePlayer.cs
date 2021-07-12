@@ -10,6 +10,7 @@ public class BasePlayer : NetworkBehaviour {
     public float jumpPower = 20f;
     public float damagePerShot = 25f;
     public GameObject shootingPoint;
+    public int id;
 
     private Rigidbody rb;
     private bool disabledMyself = false;
@@ -42,7 +43,7 @@ public class BasePlayer : NetworkBehaviour {
                         if (isSolo) {
                             hit2.collider.gameObject.GetComponent<BaseEnemy> ().SoloTakeDamage (damagePerShot);
                         } else {
-                            CmdDamage (hit2.collider.gameObject.GetComponent<BaseEnemy> ().id, damagePerShot);
+                            CmdDamage (hit2.collider.gameObject.GetComponent<BaseEnemy> ().id, damagePerShot, id);
                         }
                     }
                 }
@@ -85,9 +86,11 @@ public class BasePlayer : NetworkBehaviour {
     }
 
     [Command]
-    void CmdDamage (int id, float damage) {
+    void CmdDamage (int id, float damage, int playerId) {
         foreach (GameObject player in GameObject.FindGameObjectsWithTag ("Player")) {
-            player.GetComponent<BasePlayer> ().RpcDamageEnemy (id, damage);
+            if (player.GetComponent<BasePlayer> ().id == playerId) {
+                player.GetComponent<BasePlayer> ().RpcDamageEnemy (id, damage);
+            }
         }
     }
 
